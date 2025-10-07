@@ -81,15 +81,18 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
     let modo = global.opts?.self ? "Ⓟⓥ Privado" : "Ⓟ Público"
 
     // Bloque inicial
-    let menuText = `
-╭━━━〔 ⚡️ *GAARA-ULTRA-MENU* ⚡️ 〕━━━⬣
-┃ ❒ *Nombre*: *${botname}*
-┃ ❒ *Creador*: *${creador}*
-┃ ❒ *Estado*: *${modo}*
-┃ ❒ *Uptime*: *${uptime}*
-┃ ❒ *Premium*: *${totalPremium}*
-┃ ❒ *Versión*: *${versionBot}*
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
+    let menuText = `       ゛〻 🐼 𝙈𝙚𝙣𝙪 𝙅𝙤𝙩𝙖 𝘽𝙤𝙩  ˎˊ˗
+
+⚡︎ : ̗̀𝑾𝒆𝒍𝒄𝒐𝒎𝒆 𝒑𝒆𝒓𝒓𝒙 ${taguser} 👋
+✗ ೃ‧₊› ${saludo} ⋆ 
+> ¹¹ ࣪ ¹¹ Iᥒ thιs ωoɾᥣᏧ ιt's ȷυst υs 💐
+₊      ・      ₊               ₊            °        ☆    ₊          ⋆.       ₊        ★                       ⊹    
+       ⟡     ⊹             .        
+. ∧,,,∧☆    ₊          ⋆.       ₊        
+(  ̳• · • ̳)☆    ₊          ⋆.       ₊   ★               
+/    づ♡ һᥲ᥎ᥱ ᥲ ᥒіᥴᥱ ძᥲᥡ ✨
+${readMore}
+˚⊱ - -    ⃟𝘾𝙤𝙢𝙖𝙣𝙙𝙤𝙨 - - ⊰˚•°. *࿐`,
 `
 
     // Recorremos categorías (sin huecos)
@@ -98,16 +101,16 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
       if (!comandos.length) continue
 
       menuText += `
-╭━━━〔 ${tags[tag]} 〕━━━⬣
+╭┈┈ ✘「${tags[tag]}」┈┈ ✘
 ${comandos.map(menu => menu.help.map(help =>
-  `┃ ➟ ${_p}${help}${menu.limit ? ' 🟡' : ''}${menu.premium ? ' 🔒' : ''}`
+  ` `┊: ̗̀ ${_p}${help}${menu.limit ? ' 🟡' : ''}${menu.premium ? ' 🔒' : ''}`
 ).join('\n')).join('\n')}
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
+╰┄┄┈┈┈┄✘┈┈┈┈┈┈
 `
     }
 
     menuText += `
-> 👑 Powered by leo xzzsy 🥷🏽
+> ${dev}
 `
 
     await m.react('⚡️')
