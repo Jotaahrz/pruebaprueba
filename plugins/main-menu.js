@@ -5,7 +5,7 @@ import ws from 'ws'
 import { generateWAMessageFromContent, prepareWAMessageMedia } from '@whiskeysockets/baileys'
 import fetch from 'node-fetch'
 
-const botname = global.botname || '🌪️ 𝙂𝘼𝘼𝙍𝘼-𝙐𝙇𝙏𝙍𝘼-𝙈𝘿 🌪️'
+const botname = global.botname || '🌪️ JOTABOT 🌪️'
 const creador = 'https://xzys-ultra.vercel.app'
 const versionBot = '10.5.0' // cámbiala si tienes otra
 
