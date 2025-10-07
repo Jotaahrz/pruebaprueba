@@ -103,7 +103,7 @@ ${readMore}
       menuText += `
 ╭┈┈ ✘「${tags[tag]}」┈┈ ✘
 ${comandos.map(menu => menu.help.map(help =>
-  ` `┊: ̗̀ ${_p}${help}${menu.limit ? ' 🟡' : ''}${menu.premium ? ' 🔒' : ''}`
+   `┊: ̗̀ ${_p}${help}${menu.limit ? ' 🟡' : ''}${menu.premium ? ' 🔒' : ''}`
 ).join('\n')).join('\n')}
 ╰┄┄┈┈┈┄✘┈┈┈┈┈┈
 `
