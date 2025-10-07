@@ -38,14 +38,14 @@ const { chain } = lodash
 const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 
 console.log(chalk.bold.redBright(`
-╭━━━〔⚡️ Gaara-Ultra-MD Conexión ⚡️〕━━━⬣
+╭━━━〔⚡️ Jota-Bot Conexión ⚡️〕━━━⬣
 ┃ ✅️ Sistema ACTIVADO con éxito
 ┃ 🚀 ¡Prepárate para dominar con Ultra!
 ╰━━━━━━━━━━━━━━━━━━━━━━⬣
 `))
 
 console.log(chalk.bold.magentaBright('╭━━━〔 👑 INFO CREADOR 👑 〕━━━⬣'))
-console.log(chalk.bold.cyanBright('┃ ✦ Desarrollado por xzzys26 👑'))
+console.log(chalk.bold.cyanBright('┃ ✦ Desarrollado por Jotaa.hrz 👑'))
 console.log(chalk.bold.magentaBright('╰━━━━━━━━━━━━━━━━━━━━━━⬣\n'))
 
 protoType()
