@@ -7,21 +7,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
   const ctxOk = (global.rcanalr || {})
 
   if (!text) {
-    return conn.reply(m.chat, `
-⚡️ Gaara-Ultra-MD - Descargar Multimedia 🎥⚡️
-
-📝 Forma de uso:
-• ${usedPrefix}play <nombre de la canción>
-
-💡 Ejemplos:
-• ${usedPrefix}play unravel Tokyo ghoul
-• ${usedPrefix}play crossing field
-
-🎯 Formato disponible:
-🎵 Audio MP3 (alta calidad)
-
-🌟 ¡Encuentra y descarga tu música favorita! 🎶
-    `.trim(), m, ctxWarn)
+    return conn.reply(m.chat, `*${emojis} Proporciona el nombre de la canción*\n> ejemplo: .play Quiéreme - Mickey Taveras.`.trim(), m, ctxWarn)
   }
 
   try {
