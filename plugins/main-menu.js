@@ -83,7 +83,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
     // Bloque inicial
     let menuText = `       ゛〻 🐼 𝙈𝙚𝙣𝙪 𝙅𝙤𝙩𝙖 𝘽𝙤𝙩  ˎˊ˗
 
-⚡︎ : ̗̀𝑾𝒆𝒍𝒄𝒐𝒎𝒆 𝒑𝒆𝒓𝒓𝒙 ${taguser} 👋
+⚡︎ : ̗̀𝑾𝒆𝒍𝒄𝒐𝒎𝒆 𝒑𝒆𝒓𝒓𝒙 👋
 ✗ ೃ‧₊› ${saludo} ⋆ 
 > ¹¹ ࣪ ¹¹ Iᥒ thιs ωoɾᥣᏧ ιt's ȷυst υs 💐
 ₊      ・      ₊               ₊            °        ☆    ₊          ⋆.       ₊        ★                       ⊹    
