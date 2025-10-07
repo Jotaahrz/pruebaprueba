@@ -7,7 +7,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
   const ctxOk = (global.rcanalr || {})
 
   if (!text) {
-    return conn.reply(m.chat, `*${emojis} Proporciona el nombre de la canción*\n> ejemplo: .play Quiéreme - Mickey Taveras.`.trim(), m, ctxWarn)
+    return conn.reply(m.chat, `*🐼 Proporciona el nombre de la canción*\n> ejemplo: .play Quiéreme - Mickey Taveras.`.trim(), m, ctxWarn)
   }
 
   try {
