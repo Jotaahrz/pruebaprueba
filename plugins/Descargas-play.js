@@ -1,89 +1,87 @@
-import fetch from 'node-fetch'
-import yts from 'yt-search'
+import yts from 'yt-search';
+import fetch from 'node-fetch';
+import { prepareWAMessageMedia, generateWAMessageFromContent } from '@whiskeysockets/baileys';
 
-let handler = async (m, { conn, text, usedPrefix }) => {
-  const ctxErr = (global.rcanalx || {})
-  const ctxWarn = (global.rcanalw || {})
-  const ctxOk = (global.rcanalr || {})
+const handler = async (m, { conn, args, usedPrefix }) => {
+    if (!args[0]) return conn.reply(m.chat, `*${emojis} Proporciona el nombre de la canción*\n> ejemplo: .play Quiéreme - Mickey Taveras.`, m);
 
-  if (!text) {
-    return conn.reply(m.chat, `*🐼 Proporciona el nombre de la canción*\n> ejemplo: .play Quiéreme - Mickey Taveras.`.trim(), m, ctxWarn)
-  }
+    await m.react('🕓');
+    try {
+        let searchResults = await searchVideos(args.join(" "));
 
-  try {
-    await conn.reply(m.chat, '⚡️ Buscando audio...', m, ctxOk)
+        if (!searchResults.length) throw new Error('No se encontraron resultados.');
 
-    const search = await yts(text)
-    if (!search.videos.length) throw new Error('No encontré resultados para tu búsqueda.')
+        let video = searchResults[0];
+        let thumbnail = await (await fetch(video.miniatura)).buffer();
 
-    const video = search.videos[0]
-    const { title, url, thumbnail } = video
+        let messageText = `*Youtube - Download*\n\n`;
+        messageText += `${video.titulo}\n\n`;
+        messageText += `*⌛ Duración:* ${video.duracion || 'No disponible'}\n`;
+        messageText += `*👤 Autor:* ${video.canal || 'Desconocido'}\n`;
+        messageText += `*📆 Publicado:* ${convertTimeToSpanish(video.publicado)}\n`;
+        messageText += `*🖇️ Url:* ${video.url}\n`;
 
-    let thumbBuffer = null
-    if (thumbnail) {
-      try {
-        const resp = await fetch(thumbnail)
-        thumbBuffer = Buffer.from(await resp.arrayBuffer())
-      } catch (err) {
-        console.log('No se pudo obtener la miniatura:', err.message)
-      }
+        await conn.sendMessage(m.chat, {
+            image: thumbnail,
+            caption: messageText,
+            footer: dev,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true
+            },
+            buttons: [
+                {
+                    buttonId: `${usedPrefix}ytmp3 ${video.url}`,
+                    buttonText: { displayText: 'Audio' },
+                    type: 1,
+                },
+                {
+                    buttonId: `${usedPrefix}ytmp4 ${video.url}`,
+                    buttonText: { displayText: 'Vídeo' },
+                    type: 1,
+                }
+            ],
+            headerType: 1,
+            viewOnce: true
+        }, { quoted: m });
+
+        await m.react('✅');
+    } catch (e) {
+        console.error(e);
+        await m.react('✖️');
+        conn.reply(m.chat, '*`Error al buscar el video.`*', m);
     }
+};
 
-    // ===== APIs para audio MP3 =====
-    const fuentes = [
-      { api: 'ZenzzXD', endpoint: `https://api.zenzxz.my.id/downloader/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
-      { api: 'ZenzzXD v2', endpoint: `https://api.zenzxz.my.id/downloader/ytmp3v2?url=${encodeURIComponent(url)}`, extractor: res => res.download_url },
-      { api: 'Vreden', endpoint: `https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(url)}`, extractor: res => res.result?.download?.url },
-      { api: 'Delirius', endpoint: `https://api.delirius.my.id/download/ymp3?url=${encodeURIComponent(url)}`, extractor: res => res.data?.download?.url },
-      { api: 'StarVoid', endpoint: `https://api.starvoidclub.xyz/download/youtube?url=${encodeURIComponent(url)}`, extractor: res => res.audio }
-    ]
+handler.help = ['play'];
+handler.tags = ['descargas'];
+handler.command = ['play'];
+export default handler;
 
-    let audioUrl, apiUsada, exito = false
-
-    for (let fuente of fuentes) {
-      try {
-        const response = await fetch(fuente.endpoint)
-        if (!response.ok) continue
-        const data = await response.json()
-        const link = fuente.extractor(data)
-        if (link) {
-          audioUrl = link
-          apiUsada = fuente.api
-          exito = true
-          break
-        }
-      } catch (err) {
-        console.log(`⚠️ Error con ${fuente.api}:`, err.message)
-      }
+async function searchVideos(query) {
+    try {
+        const res = await yts(query);
+        return res.videos.slice(0, 10).map(video => ({
+            titulo: video.title,
+            url: video.url,
+            miniatura: video.thumbnail,
+            canal: video.author.name,
+            publicado: video.timestamp || 'No disponible',
+            vistas: video.views || 'No disponible',
+            duracion: video.duration.timestamp || 'No disponible'
+        }));
+    } catch (error) {
+        console.error('Error en yt-search:', error.message);
+        return [];
     }
-
-    if (!exito) {
-      await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key } })
-      return conn.reply(m.chat, '🥲 No se pudo enviar el audio desde ninguna API.', m, ctxErr)
-    }
-
-    await conn.sendMessage(
-      m.chat,
-      {
-        audio: { url: audioUrl },
-        mimetype: 'audio/mpeg',
-        ptt: false,
-        jpegThumbnail: thumbBuffer,
-        caption: `🎼 ${title} | API: ${apiUsada}`
-      },
-      { quoted: m }
-    )
-
-    await conn.reply(m.chat, `✅ Descarga completa ⚡️\n🌟 ${title}`, m, ctxOk)
-
-  } catch (e) {
-    console.error('❌ Error en play:', e)
-    await conn.reply(m.chat, `❌ Error: ${e.message}`, m, ctxErr)
-  }
 }
 
-handler.help = ['play <nombre de la canción>']
-handler.tags = ['downloader']
-handler.command = ['play']
-
-export default handler
+function convertTimeToSpanish(timeText) {
+    return timeText
+        .replace(/year/, 'año').replace(/years/, 'años')
+        .replace(/month/, 'mes').replace(/months/, 'meses')
+        .replace(/day/, 'día').replace(/days/, 'días')
+        .replace(/hour/, 'hora').replace(/hours/, 'horas')
+        .replace(/minute/, 'minuto').replace(/minutes/, 'minutos');
+}
