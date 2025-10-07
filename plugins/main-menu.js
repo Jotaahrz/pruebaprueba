@@ -100,9 +100,8 @@ ${readMore}
       let comandos = help.filter(menu => menu.tags.includes(tag))
       if (!comandos.length) continue
 
-      menuText += `
-╭┈┈ ✘「${tags[tag]}」┈┈ ✘
-${comandos.map(menu => menu.help.map(help =>
+      menuText += `╭┈┈ ✘「${tags[tag]}」┈┈ ✘
+${comandos.map(menu => menu.help.map(help =>`
    `┊: ̗̀ ${_p}${help}${menu.limit ? ' 🟡' : ''}${menu.premium ? ' 🔒' : ''}`
 ).join('\n')).join('\n')}
 ╰┄┄┈┈┈┄✘┈┈┈┈┈┈
