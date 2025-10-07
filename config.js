@@ -16,20 +16,17 @@ global.botNumber = '' //Ejemplo: 573218138672
 
 global.owner = [
 // <-- Número @s.whatsapp.net -->
-  ['18493907272', 'Xzzys26 Creador', true],
-  ['5216641784469'],
-  ['1920437612698@lid'],
+  ['573155227977', 'Jota Creador', true],
+  ['229356135813175@lid'],
 
 // <-- Número @lid -->
-  ['1920437612698', 'Xzzys26', true],
-  ['258892692984006', 'DevAlexJs', true], 
-  ['58566677377081', 'legna', true]
+  ['229356135813175', 'Jota', true]
 ];
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.mods = []
-global.suittag = ['18493907272'] 
+global.suittag = ['573155227977'] 
 global.prems = []
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
@@ -39,18 +36,18 @@ global.baileys = 'V 6.7.17'
 global.languaje = 'Español'
 global.vs = '2.13.2'
 global.vsJB = '5.0'
-global.nameqr = 'Gaara-Ultra-MD' 
-global.namebot = 'Gaara-Ultra-MD'
-global.vegetasessions = 'GaaraSessions'
+global.nameqr = 'Jota Bot' 
+global.namebot = 'Jota Bot'
+global.vegetasessions = 'JotaSessions'
 global.jadi = 'JadiBots' 
 global.vegetaJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.packname = `Xzzys26 Gaara-Ultra-MD`
-global.botname = '𝗚𝗔𝗔𝗥𝗔 𝗨𝗟𝗧𝗥𝗔-𝗠𝗗'
-global.dev = '𝙿𝙾𝚆𝙴𝚁𝙳 𝙱𝚈 𝚇𝚉𝚉𝚂𝚈26'
-global.textbot = '𝐁𝐲 𝐗𝐳𝐳𝐲𝐬26 𝐆𝐚𝐚𝐫𝐚 𝐔𝐥𝐭𝐫𝐚-𝐌𝐃'
+global.packname = `Jota Bot`
+global.botname = 'Jota Bot MD'
+global.dev = 'Jota Bot by Jotaa.hrz'
+global.textbot = 'By Jotaa.hrz'
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
