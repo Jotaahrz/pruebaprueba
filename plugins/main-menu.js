@@ -1,177 +1,142 @@
-// créditos y creador de código BrayanOFC Y Modificado Por xzzys26
-
+import fs from 'fs'
 import { xpRange } from '../lib/levelling.js'
-import ws from 'ws'
-import { generateWAMessageFromContent, prepareWAMessageMedia } from '@whiskeysockets/baileys'
-import fetch from 'node-fetch'
 
-const botname = global.botname || '🌪️ JOTABOT 🌪️'
-const creador = 'https://xzys-ultra.vercel.app'
-const versionBot = '10.5.0' // cámbiala si tienes otra
+let handler = async (m, { conn, usedPrefix, command }) => {
+  try {
+    let { exp, coins, level, role } = global.db.data.users[m.sender]
+    let { min, xp, max } = xpRange(level, global.multiplier)
 
-// Categorías
-let tags = {
-  'serbot': '🤖 𝗦𝗨𝗕-𝗕𝗢𝗧𝗦',
-  'info': '🌀 𝗜𝗡𝗙𝗢𝗦',
-  'main': '📜 𝗠𝗘𝗡𝗨',
-  'nable': '⚡ 𝗠𝗢𝗗𝗢 𝗔𝗩𝗔𝗡𝗭𝗔𝗗𝗢',
-  'cmd': '📝 𝗖𝗢𝗠𝗔𝗡𝗗𝗢𝗦',
-  'advanced': '🌟 𝗙𝗨𝗡𝗖𝗜𝗢𝗡𝗘𝗦 𝗔𝗩𝗔𝗡𝗭𝗔𝗗𝗔𝗦',
-  'game': '🎮 𝗝𝗨𝗘𝗚𝗢𝗦',
-  'rpg': '⚔️ 𝗥𝗣𝗚',
-  'group': '📚 𝗚𝗥𝗨𝗣𝗢𝗦',
-  'downloader': '📥 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔𝗦',
-  'sticker': '🖼️ 𝗦𝗧𝗜𝗖𝗞𝗘𝗥',
-  'audio': '🔊 𝗔𝗨𝗗𝗜𝗢',
-  'search': '🔎 𝗕𝗨𝗦𝗤𝗨𝗘𝗗𝗔',
-  'tools': '🧰 𝗛𝗘𝗥𝗔𝗠𝗜𝗘𝗡𝗧𝗔𝗦',
-  'fun': '🎉 𝗗𝗜𝗩𝗘𝗥𝗦𝗜𝗢𝗡',
-  'gacha': '🧧 𝗔𝗡𝗜𝗠𝗘',
-  'nsfw': '🔞 𝗡𝗦𝗙𝗪',
-  'premium': '💎 𝗣𝗥𝗘𝗠𝗜𝗨𝗠',
-  'weather': '🛰️ 𝗖𝗟𝗜𝗠𝗔',
-  'news': '📄 𝗡𝗢𝗧𝗜𝗖𝗜𝗔𝗦',
-  'ñutos': '🏛️ 𝗙𝗜𝗡𝗔𝗡𝗭𝗔',
-  'education': '🔰 𝗘𝗗𝗨𝗖𝗔𝗖𝗜𝗢𝗡',
-  'health': '❤️ 𝗦𝗔𝗟𝗨𝗗',
-  'entertainment': '📲 𝗘𝗡𝗧𝗥𝗘𝗧𝗘𝗡𝗜𝗠𝗜𝗘𝗡𝗧𝗢',
-  'sports': '⚽ 𝗗𝗘𝗣𝗢𝗥𝗧𝗘𝗦',
-  'travel': '✈️ 𝗩𝗜𝗔𝗝𝗘𝗦',
-  'food': '🥡 𝗖𝗢𝗠𝗜𝗗𝗔',
-  'shopping': '🛍️ 𝗖𝗢𝗠𝗣𝗥𝗔',
-  'productivity': '🔖 𝗣𝗥𝗢𝗗𝗨𝗖𝗧𝗜𝗩𝗜𝗗𝗔𝗗',
-  'social': '📸 𝗥𝗘𝗗𝗘𝗦 𝗦𝗢𝗖𝗜𝗔𝗟𝗘𝗦',
-  'security': '🔱 𝗦𝗘𝗚𝗨𝗥𝗜𝗗𝗔𝗗',
-  'custom': '⚙️ 𝗣𝗘𝗥𝗦𝗢𝗡𝗔𝗟𝗜𝗭𝗔𝗗𝗢'
+    exp = exp || '0'
+    role = role || 'Novato'
+
+    const taguser = '@' + m.sender.split('@s.whatsapp.net')[0]
+    const _uptime = process.uptime() * 1000
+    const uptime = clockString(_uptime)
+
+    let totalreg = Object.keys(global.db.data.users).length
+    let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered).length
+    const readMore = '\u200b'.repeat(850)
+
+    await m.react('🐼')
+
+    const img = `https://files.catbox.moe/3i72ww.jpg`
+
+let tags = {};
+let emojis = {
+  main: "🤍",
+  info: "🐼",
+  config: "🔧",
+  dl: "⚡",
+  search: "✨",
+  ia: "🤖",
+  frases: "✍️",
+  converter: "🔄",
+  tools: "🛠️",
+  gc: "👾",
+  efectos: "🪻",
+  fun: "😂",
+  game: "🎯",
+  anime: "🍬",
+  maker: "🌷",
+  sticker: "⚡",
+  rpg: "💸",
+  rg: "🪴",
+  owner: "🤓"
+};
+
+const tagTitles = {
+  main: "Menus",
+  info: "Info",
+  config: "Ajustes",
+  dl: "Download",
+  search: "Search",
+  ia: "Inteligencias",
+  frases: "Frases",
+  converter: "Converters",
+  tools: "Herramientas",
+  gc: "Grupos",
+  efectos: "Efectos",
+  fun: "Diversión",
+  game: "Juegos",
+  anime: "Random",
+  maker: "Maker",
+  sticker: "Sticker",
+  rpg: "Rpg",
+  rg: "Registro",
+  owner: "Owner"
+};
+
+for (let key in emojis) {
+  tags[key] = ` *${tagTitles[key]}* ${emojis[key]}`;
 }
 
-let handler = async (m, { conn, usedPrefix: _p }) => {
-  try {
-    let userId = m.mentionedJid?.[0] || m.sender
-    let user = global.db.data.users[userId] || { exp: 0, level: 1, premium: false }
+    let defaultMenu = {
 
-    let { level } = user
 
-    // Inicializar base de datos si no existe
-    if (!global.db.data.users) global.db.data.users = {}
+    before: `ㅤ       ゛〻 🐼 𝙈𝙚𝙣𝙪 𝙅𝙤𝙩𝙖 𝘽𝙤𝙩  ˎˊ˗
 
-    // Contar usuarios reales (exp > 0)
-    let totalUsers = Object.values(global.db.data.users).filter(u => u.exp > 0).length
+⚡︎ : ̗̀𝑾𝒆𝒍𝒄𝒐𝒎𝒆 𝒑𝒆𝒓𝒓𝒙 ${taguser} 👋
+✗ ೃ‧₊› ${saludo} ⋆ 
+> ¹¹ ࣪ ¹¹ Iᥒ thιs ωoɾᥣᏧ ιt's ȷυst υs 💐
+₊      ・      ₊               ₊            °        ☆    ₊          ⋆.       ₊        ★                       ⊹    
+       ⟡     ⊹             .        
+. ∧,,,∧☆    ₊          ⋆.       ₊        
+(  ̳• · • ̳)☆    ₊          ⋆.       ₊   ★               
+/    づ♡ һᥲ᥎ᥱ ᥲ ᥒіᥴᥱ ძᥲᥡ ✨
+${readMore}
+˚⊱ - -    ⃟𝘾𝙤𝙢𝙖𝙣𝙙𝙤𝙨 - - ⊰˚•°. *࿐`,
 
-    // Contar usuarios premium (premium === true)
-    let totalPremium = Object.values(global.db.data.users).filter(u => u.premium).length
+      header: category => `╭┈┈ ✘「${category}」┈┈ ✘`,
+      body: (cmd, emoji) => `┊: ̗̀${emoji} ${cmd}`,
+      footer: '╰┄┄┈┈┈┄✘┈┈┈┈┈┈  ',
+      after: `\n> ${dev}☄. *. ⋆`
+  }
 
-    let { min, xp, max } = xpRange(level, global.multiplier || 1)
+    let help = Object.values(global.plugins)
+      .filter(plugin => !plugin.disabled)
+      .map(plugin => ({
+        help: Array.isArray(plugin.help) ? plugin.help : [plugin.help],
+        tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags]
+      }))
 
-    // Plugins activos
-    let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => ({
-      help: Array.isArray(plugin.help) ? plugin.help : (plugin.help ? [plugin.help] : []),
-      tags: Array.isArray(plugin.tags) ? plugin.tags : (plugin.tags ? [plugin.tags] : []),
-      limit: plugin.limit,
-      premium: plugin.premium,
-    }))
-
-    // Saludo + hora exacta
-    let saludo = getSaludo()
-
-    // Uptime real
-    let uptime = clockString(process.uptime() * 1000)
-
-    // Modo (Privado / Público)
-    let modo = global.opts?.self ? "Ⓟⓥ Privado" : "Ⓟ Público"
-
-    // Bloque inicial
-    let menuText = `
-╭━━━〔 ⚡️ *JOTA-BOT-MENU* ⚡️ 〕━━━⬣
-┃ ❒ *Nombre*: *${botname}*
-┃ ❒ *Creador*: *${creador}*
-┃ ❒ *Estado*: *${modo}*
-┃ ❒ *Uptime*: *${uptime}*
-┃ ❒ *Premium*: *${totalPremium}*
-┃ ❒ *Versión*: *${versionBot}*
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
-`
-
-    // Recorremos categorías (sin huecos)
-    for (let tag in tags) {
-      let comandos = help.filter(menu => menu.tags.includes(tag))
-      if (!comandos.length) continue
-
-      menuText += `
-╭━━━〔 ${tags[tag]} 〕━━━⬣
-${comandos.map(menu => menu.help.map(help =>
-  `┃ ➟ ${_p}${help}${menu.limit ? ' 🟡' : ''}${menu.premium ? ' 🔒' : ''}`
-).join('\n')).join('\n')}
-╰━━━━━━━━━━━━━━━━━━━━━━⬣
-`
+    let groupsByTag = {}
+    for (let tag in emojis) {
+      groupsByTag[tag] = help.filter(plugin => plugin.tags.includes(tag))
     }
 
-    menuText += `
-> 👑 Jota bot by Jotaa.hrz 🥷🏽
-`
+    let menuText = [
+      defaultMenu.before,
+      ...Object.keys(tags).map(tag =>
+        [
+          defaultMenu.header(tags[tag]),
+          groupsByTag[tag].flatMap(plugin => plugin.help.map(cmd => defaultMenu.body(usedPrefix + cmd, emojis[tag]))).join('\n'),
+          defaultMenu.footer
+        ].join('\n')
+      ),
+      defaultMenu.after
+    ].join('\n')
 
-    await m.react('⚡️')
-    await m.react('✅️')
 
-    let vidBuffer = await (await fetch('https://files.catbox.moe/dkvp8h.mp4')).buffer() // cambia la URL por tu video corto
-    let media = await prepareWAMessageMedia(
-      { video: vidBuffer, gifPlayback: true },
-      { upload: conn.waUploadToServer }
-    )
-
-    let msg = generateWAMessageFromContent(m.chat, {
-      viewOnceMessage: {
-        message: {
-          videoMessage: {
-            ...media.videoMessage,
-            gifPlayback: true,
-            caption: menuText,
-            contextInfo: {
-              isForwarded: true,
-              forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363417252896376@newsletter',
-                newsletterName: '𝗨𝗽𝗱𝗮𝘁𝗲 𝗚𝗮𝗮𝗿𝗮 𝗨𝗹𝘁𝗿𝗮-𝗠𝗗 👑⚡',
-                serverMessageId: 100
-              }
-            }
-          }
-        }
-      }
-    }, { userJid: m.sender, quoted: m })
-
-    await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+   await conn.sendMessage(m.chat, {
+    image: { url: img },
+    caption: menuText,
+    mentions: [m.sender, creadorM],
+    gifPlayback: true
+  }, { quoted: fkontak })
 
   } catch (e) {
-    conn.reply(m.chat, `✖️ Error al mostrar el menú Gaara-Ultra.\n\n${e}`, m)
     console.error(e)
+    await m.reply('*❌ Hubo un error al generar el menú.*')
   }
 }
 
-handler.help = ['menu']
-handler.tags = ['main']
-handler.command = ['menu', 'allmenu', 'menú']
-handler.register = true
 
+handler.command = /^(menu|menú|memu|memú|help|info|comandos|2help|menu1.2|ayuda|commands|commandos|cmd)$/i;
 export default handler
 
-// Extra
 function clockString(ms) {
-  let h = Math.floor(ms / 3600000)
-  let m = Math.floor(ms / 60000) % 60
-  let s = Math.floor(ms / 1000) % 60
+  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
+  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
+  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
   return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
-}
-
-// Saludo dinámico con hora real de Saint Martin (UTC-4)
-function getSaludo() {
-  let options = { timeZone: "America/Marigot", hour: "numeric", minute: "numeric", second: "numeric", hour12: false }
-  let horaStr = new Date().toLocaleString("es-DO", options)
-  let [hora] = horaStr.split(":").map(n => parseInt(n))
-
-  let saludo
-  if (hora >= 5 && hora < 12) saludo = "🌅 Buenos días"
-  else if (hora >= 12 && hora < 18) saludo = "☀️ Buenas tardes"
-  else saludo = "🌙 Buenas noches"
-
-  return `${saludo} | 🕒 ${horaStr}`
 }
