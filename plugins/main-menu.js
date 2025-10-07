@@ -82,7 +82,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
 
     // Bloque inicial
     let menuText = `
-╭━━━〔 ⚡️ *GAARA-ULTRA-MENU* ⚡️ 〕━━━⬣
+╭━━━〔 ⚡️ *JOTA-BOT-MENU* ⚡️ 〕━━━⬣
 ┃ ❒ *Nombre*: *${botname}*
 ┃ ❒ *Creador*: *${creador}*
 ┃ ❒ *Estado*: *${modo}*
@@ -107,7 +107,7 @@ ${comandos.map(menu => menu.help.map(help =>
     }
 
     menuText += `
-> 👑 Powered by leo xzzsy 🥷🏽
+> 👑 Jota bot by Jotaa.hrz 🥷🏽
 `
 
     await m.react('⚡️')
