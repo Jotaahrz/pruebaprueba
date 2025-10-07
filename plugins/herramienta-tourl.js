@@ -6,7 +6,7 @@ import { fileTypeFromBuffer } from "file-type";
 const handler = async (m, { conn }) => {
 let q = m.quoted ? m.quoted : m;
   let mime = (q.msg || q).mimetype || "";
-  if (!mime) return conn.reply(m.chat, `*🔩 Responde a una imagen, vídeo o gif.*`, m, rcanal);
+  if (!mime) return conn.reply(m.chat, `*🔩 Responde a una imagen, vídeo o gif.*`, m);
   let media = await q.download();
 let link = await catbox(media);
   let caption = `
